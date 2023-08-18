@@ -43,6 +43,7 @@ export const LoginPage = () => {
       backendClient
         .post(url, postData, options)
         .then((response) => {
+          console.log(response.headers);
           Cookies.set('csrftoken', response.headers['X-Csrftoken']);
           setCsrfTokenHeader(response.headers['X-Csrftoken']);
           refreshUser();
