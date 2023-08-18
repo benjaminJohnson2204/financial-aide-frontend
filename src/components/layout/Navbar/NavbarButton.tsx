@@ -2,13 +2,14 @@ import { Box, Typography, styled } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ReactElement } from 'react';
-import { LinkNoUnderline } from './styles';
+import { LinkNoUnderline, NavbarButtonText } from './styles';
 
 interface NavbarButtonProps {
   icon: ReactElement;
   color: string;
   text: string;
   href?: string;
+  onClick?: () => unknown;
 }
 
 export const NavbarButton = ({
@@ -16,14 +17,19 @@ export const NavbarButton = ({
   color,
   text,
   href,
+  onClick,
 }: NavbarButtonProps) => {
   const renderContents = () => {
     return (
-      <Box display='flex' flexDirection='row' gap={2} alignItems='center'>
+      <Box
+        display='flex'
+        flexDirection='row'
+        gap={2}
+        alignItems='center'
+        onClick={onClick}
+      >
         {icon}
-        <Typography color={color} fontSize={18} fontWeight={600}>
-          {text}
-        </Typography>
+        <NavbarButtonText style={{ color }}>{text}</NavbarButtonText>
       </Box>
     );
   };

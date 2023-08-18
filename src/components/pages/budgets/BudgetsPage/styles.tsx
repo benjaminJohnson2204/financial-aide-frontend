@@ -15,8 +15,9 @@ export const NewBudgetButton = styled(IconButton)({
   width: 72,
   height: 72,
   backgroundColor: Colors.DARK_PURPLE,
-  '&:hover': {
-    // backgroundColor: Colors.DARK_PURPLE,
+  ['@media screen and (max-width: 800px)']: {
+    position: 'fixed',
+    bottom: 50,
   },
 });
 

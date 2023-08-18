@@ -52,7 +52,7 @@ export const HomePage = () => {
         Welcome, {user?.username}!
       </Typography>
       <Grid container spacing={5} marginTop={1}>
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} xl={5}>
           <HomePageBox>
             <Box display='flex' flexDirection='row' gap={2} width='100%'>
               <Typography
@@ -93,6 +93,9 @@ export const HomePage = () => {
               gap={2}
               marginTop={4}
             >
+              {budgets && budgets.length === 0 ? (
+                <Typography fontSize={14}>No budgets yet</Typography>
+              ) : null}
               {budgets?.map((budget) => (
                 <Grid item key={budget.id} xs={12} md={6} lg={4}>
                   <BudgetCard
@@ -108,7 +111,7 @@ export const HomePage = () => {
             </Box>
           </HomePageBox>
         </Grid>
-        <Grid item xs={12} md={7}>
+        <Grid item xs={12} xl={7}>
           <HomePageBox>
             <Box display='flex' flexDirection='row' gap={2} width='100%'>
               <Typography
@@ -147,6 +150,7 @@ export const HomePage = () => {
               flexDirection='column'
               alignItems='center'
               gap={2}
+              marginTop={2}
             >
               <ExpensesTable
                 allExpenses={expenses}

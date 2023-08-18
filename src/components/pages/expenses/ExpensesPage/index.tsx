@@ -2,7 +2,7 @@ import { useExpenses } from '@/utils/backendAPI/expenses';
 import { useState } from 'react';
 import { ExpensesTopRow } from './styles';
 import { Colors } from '@/constants/colors';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { CustomButton } from '@/components/buttons/CustomButton';
 import { ExpensesTable } from '../ExpensesTable';
 import { EnterExpensePopup } from '@/components/popups/expenses/EnterExpensePopup';
@@ -11,6 +11,7 @@ import { Download } from '@mui/icons-material';
 import { ExpensesApiAxiosParamCreator } from '@/api-client';
 import { backendClient } from '@/utils/backendAPI/backendClient';
 import { toast } from 'react-toastify';
+import { LinkNoUnderline } from '@/components/layout/Navbar/styles';
 
 export const ExpensesPage = () => {
   const [enterExpensePopupOpen, setEnterExpensePopupOpen] = useState(false);
@@ -78,6 +79,24 @@ export const ExpensesPage = () => {
           Download as CSV
         </CustomButton>
       </ExpensesTopRow>
+      <Box
+        display='flex'
+        flexDirection='row'
+        justifyContent='center'
+        margin={2}
+        width='100%'
+      >
+        <LinkNoUnderline href='/comparison'>
+          <CustomButton
+            variant='outlined'
+            primaryColor={Colors.BLACK}
+            secondaryColor={Colors.LIGHT_GREEN}
+            style={{ width: 200 }}
+          >
+            Compare with Planned
+          </CustomButton>
+        </LinkNoUnderline>
+      </Box>
       <ExpensesTable
         allExpenses={allExpenses}
         afterSave={refreshExpenses}

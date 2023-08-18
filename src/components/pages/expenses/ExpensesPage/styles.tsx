@@ -7,4 +7,7 @@ export const ExpensesTopRow = styled('div')({
   position: 'relative',
   marginBottom: 20,
   gap: 25,
+  ['@media screen and (max-width: 800px)']: {
+    flexDirection: 'column',
+  },
 });

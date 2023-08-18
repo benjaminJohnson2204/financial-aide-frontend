@@ -1,6 +1,7 @@
 import {
   ButtonBase as MUIButton,
   ButtonProps as MUIButtonProps,
+  useMediaQuery,
 } from '@mui/material';
 import { styled } from '@mui/styles';
 
@@ -16,6 +17,8 @@ export const CustomButton = ({
   variant,
   ...props
 }: BaseButtonProps) => {
+  const isSmallMobile = useMediaQuery('@media screen and (max-width: 800px)');
+
   const styles = {
     display: 'flex',
     flexDirection: 'row',
@@ -29,6 +32,12 @@ export const CustomButton = ({
     borderRadius: 24,
     backgroundColor: variant == 'outlined' ? secondaryColor : primaryColor,
     color: variant == 'outlined' ? primaryColor : secondaryColor,
+    ...(isSmallMobile
+      ? {
+          fontSize: 12,
+          width: 100,
+        }
+      : {}),
   };
 
   return (

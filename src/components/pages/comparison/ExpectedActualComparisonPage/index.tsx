@@ -13,7 +13,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ExpensesTopRow } from '../../expenses/ExpensesPage/styles';
 import {
   BudgetCategoryRelationResponse,
@@ -33,8 +33,10 @@ import { getCategoryRelationRawAmount } from '@/utils/formatting';
 import { useCategories } from '@/utils/backendAPI/categories';
 import { backendClient } from '@/utils/backendAPI/backendClient';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 export const ExpectedActualComparisonPage = () => {
+  const router = useRouter();
   const [viewTab, setViewTab] = useState(0);
   const [downloading, setDownloading] = useState(false);
   const [selectedBudgetId, setSelectedBudgetId] = useState<
@@ -47,6 +49,15 @@ export const ExpectedActualComparisonPage = () => {
   const { budgetIdsToCategoryRelations } = useBudgetCategoryRelations(
     selectedBudgetId === 'Select an option' ? [] : [selectedBudgetId]
   );
+
+  useEffect(() => {
+    if (
+      router.query.budgetId &&
+      !isNaN(parseInt(router.query.budgetId as string))
+    ) {
+      setSelectedBudgetId(parseInt(router.query.budgetId as string));
+    }
+  }, [router.query]);
 
   const budgetIdsToBudgets = useMemo(() => {
     const result = new Map<number, BudgetResponse>();
@@ -307,7 +318,7 @@ export const ExpectedActualComparisonPage = () => {
             <StyledTab value={2} label='Pie Chart' />
           </StyledTabs>
 
-          <Box width='50%' marginTop={3}>
+          <Box marginTop={3}>
             {viewTab === 0
               ? renderTable()
               : viewTab === 1

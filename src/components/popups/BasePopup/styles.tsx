@@ -18,6 +18,7 @@ export const BasePopupContents = styled('div')({
   left: `50%`,
   transform: `translate(-50%, -50%)`,
   ['@media screen and (max-width: 700px)']: {
+    minWidth: 350,
     width: 'calc(100vw - 40px) !important',
   },
 });

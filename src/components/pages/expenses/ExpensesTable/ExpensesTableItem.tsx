@@ -1,6 +1,6 @@
 import { ExpenseResponse } from '@/api-client';
 import { ExpensesTableCell, ExpensesTableRow } from './styles';
-import { IconButton, Typography } from '@mui/material';
+import { IconButton, Typography, useMediaQuery } from '@mui/material';
 import moment from 'moment';
 import { useState } from 'react';
 import { ViewExpensePopup } from '@/components/popups/expenses/ViewExpensePopup';
@@ -25,6 +25,7 @@ export const ExpensesTableItem = ({
   const [editPopupOpen, setEditPopupOpen] = useState(false);
   const [confirmDeletePopupOpen, setConfirmDeletePopupOpen] = useState(false);
   const [viewPopupOpen, setViewPopupOpen] = useState(false);
+  const isTinyMobile = useMediaQuery('@media screen and (max-width: 600px)');
 
   const openViewPopup = () => setViewPopupOpen(true);
 
@@ -50,9 +51,11 @@ export const ExpensesTableItem = ({
         <ExpensesTableCell onClick={openViewPopup}>
           <Typography fontSize={14}>{expense.category?.name}</Typography>
         </ExpensesTableCell>
-        <ExpensesTableCell onClick={openViewPopup}>
-          <Typography fontSize={14}>{expense.description}</Typography>
-        </ExpensesTableCell>
+        {isTinyMobile ? null : (
+          <ExpensesTableCell onClick={openViewPopup}>
+            <Typography fontSize={14}>{expense.description}</Typography>
+          </ExpensesTableCell>
+        )}
         <ExpensesTableCell>
           <IconButton onClick={() => setEditPopupOpen(true)}>
             <Edit fontSize='medium' style={{ color: Colors.DARK_GREEN }} />

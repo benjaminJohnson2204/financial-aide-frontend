@@ -23,6 +23,7 @@ import {
 import moment from 'moment';
 import { CategoriesPieChart } from '@/components/pages/budgets/CategoriesPieChart';
 import { StyledTab, StyledTabs } from '@/components/tabs/StyledTabs';
+import { LinkNoUnderline } from '@/components/layout/Navbar/styles';
 
 interface ViewBudgetPopupProps {
   budget: BudgetResponse;
@@ -110,9 +111,21 @@ export const ViewBudgetPopup = ({
               defaultValue={budget.income}
             />
           </Grid>
-          <Typography margin={3} fontSize={18} fontWeight={600}>
-            Expense Categories
-          </Typography>
+          <Box display='flex' flexDirection='row' alignItems='center'>
+            <Typography margin={3} fontSize={18} fontWeight={600}>
+              Expense Categories
+            </Typography>
+            <LinkNoUnderline href={`/comparison?budgetId=${budget.id}`}>
+              <CustomButton
+                variant='outlined'
+                primaryColor={Colors.BLACK}
+                secondaryColor={Colors.LIGHT_GREEN}
+                style={{ width: 200 }}
+              >
+                Compare with Actual
+              </CustomButton>
+            </LinkNoUnderline>
+          </Box>
           <StyledTabs
             value={categoriesTab}
             onChange={(e, value) => setCategoriesTab(value)}

@@ -81,7 +81,7 @@ export const CategoriesTable = ({
   };
 
   const adjustAmountFrequency = (amount: number) => {
-    return amount * getAmountScaleFactor();
+    return Math.round((amount / getAmountScaleFactor()) * 100) / 100;
   };
 
   const rawToPercentage = (rawAmount: number) => {
@@ -97,6 +97,12 @@ export const CategoriesTable = ({
   ) => {
     if (!categoryRelation.category) {
       return ''; // Must select category before seeing typical amount
+    }
+    if (!budget.income) {
+      return '[Missing income]';
+    }
+    if (!budget.interval || (budget.interval as any) === 'Select an option') {
+      return '[Missing frequency]';
     }
     if (categoryRelation.is_percentage) {
       // If it's a percentage, use typical percentage if available, otherwise

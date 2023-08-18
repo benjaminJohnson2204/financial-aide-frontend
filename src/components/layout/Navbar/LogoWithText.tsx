@@ -1,12 +1,13 @@
 import { Colors } from '@/constants/colors';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import Image from 'next/image';
-import { LinkNoUnderline } from './styles';
+import { LinkNoUnderline, LogoText } from './styles';
 import { useContext } from 'react';
 import { AuthContext } from '@/contexts/authContext';
 
 export const LogoWithText = () => {
   const { user } = useContext(AuthContext);
+  const isSmallMobile = useMediaQuery('@media screen and (max-width: 800px)');
 
   return (
     <LinkNoUnderline href={user ? '/home' : '/'}>
@@ -20,12 +21,10 @@ export const LogoWithText = () => {
         <Image
           src='icons/mainLogo.svg'
           alt='Handshake'
-          width={64}
-          height={64}
+          width={isSmallMobile ? 48 : 64}
+          height={isSmallMobile ? 48 : 64}
         />
-        <Typography color={Colors.DARK_GREEN} fontSize={24} fontWeight={600}>
-          Financial Aide
-        </Typography>
+        <LogoText>Financial Aide</LogoText>
       </Box>
     </LinkNoUnderline>
   );

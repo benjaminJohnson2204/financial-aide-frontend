@@ -13,9 +13,14 @@ export const ExpensesTableRow = styled(TableRow)(
   })
 );
 
+export const ExpensesHeaderCell = styled(TableCell)({
+  padding: 3,
+});
+
 export const ExpensesTableCell = styled(TableCell)({
   borderBottom: 'none !important',
   cursor: 'pointer',
+  padding: 3,
 });
 
 export const ExpensesHeaderCellContents = styled('div')({

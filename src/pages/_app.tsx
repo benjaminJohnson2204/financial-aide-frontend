@@ -1,6 +1,8 @@
 import { MainLayout } from '@/components/layout/MainLayout';
+import { theme } from '@/constants/theme';
 import { AuthContextProvider } from '@/contexts/authContext';
 import { useSetCsrfTokenHeader } from '@/utils/backendAPI/csrfToken';
+import { ThemeProvider } from '@mui/material';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ToastContainer } from 'react-toastify';
@@ -11,9 +13,11 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <>
-      <AuthContextProvider>
-        <MainLayout page={<Component {...pageProps} />} />
-      </AuthContextProvider>
+      <ThemeProvider theme={theme}>
+        <AuthContextProvider>
+          <MainLayout page={<Component {...pageProps} />} />
+        </AuthContextProvider>
+      </ThemeProvider>
       <ToastContainer />
     </>
   );

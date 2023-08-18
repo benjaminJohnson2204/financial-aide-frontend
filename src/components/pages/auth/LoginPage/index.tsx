@@ -61,7 +61,7 @@ export const LoginPage = () => {
 
   return (
     <AuthPageRoot>
-      <AuthFormRoot id='login-form'>
+      <AuthFormRoot onSubmit={(e) => e.preventDefault()} id='login-form'>
         <Typography fontSize={36}>Login</Typography>
         <Typography fontSize={14} marginTop={3}>
           {"Don't have an account?"} <Link href='/register'>Sign Up</Link>
@@ -82,6 +82,7 @@ export const LoginPage = () => {
               primaryColor={Colors.DARK_GREEN}
               secondaryColor={Colors.WHITE}
               onClick={login}
+              type='submit'
             >
               Submit
             </CustomButton>

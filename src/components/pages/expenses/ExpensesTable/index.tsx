@@ -11,12 +11,14 @@ import {
   TableRow,
   Typography,
   debounce,
+  useMediaQuery,
 } from '@mui/material';
 import { ExpensesTableItem } from './ExpensesTableItem';
 import { useExpenses } from '@/utils/backendAPI/expenses';
 import { useEffect, useMemo, useState } from 'react';
 import { PAGE_SIZE } from '@/constants/pagination';
 import {
+  ExpensesHeaderCell,
   ExpensesHeaderCellContents,
   ExpensesTableCell,
   OrderingArrowButton,
@@ -72,9 +74,14 @@ export const ExpensesTable = ({
   const [datePopoverAnchor, setDatePopoverAnchor] =
     useState<HTMLElement | null>(null);
 
+  const isSmallMobile = useMediaQuery('@media screen and (max-width: 800px)');
+  const isTinyMobile = useMediaQuery('@media screen and (max-width: 600px)');
+
   const updateSearchInput = debounce((e: any) => {
     setSearch(e.target.value);
   }, 500);
+
+  useEffect(refreshExpenses, [allExpenses]);
 
   useEffect(() => {
     const searchField = document.getElementById(
@@ -85,6 +92,9 @@ export const ExpensesTable = ({
   }, [setSearch]);
 
   const renderOrderingArrows = (fieldName: string) => {
+    if (isSmallMobile) {
+      return null; // Make more space on mobile by not rendering ordering arrows
+    }
     return (
       <Box display='flex' flexDirection='column' gap={1}>
         <OrderingArrowButton onClick={() => setOrdering(fieldName)}>
@@ -120,84 +130,90 @@ export const ExpensesTable = ({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>
+            <ExpensesHeaderCell>
               <ExpensesHeaderCellContents>
                 <Typography fontSize={14} fontWeight={600}>
                   Date
                 </Typography>
-                <OrderingArrowButton
-                  onClick={(e) =>
-                    setDatePopoverAnchor(
-                      datePopoverAnchor === null ? e.currentTarget : null
-                    )
-                  }
-                >
-                  <FilterAlt
-                    style={{
-                      color:
-                        minTimestamp || maxTimestamp
-                          ? Colors.DARK_GREEN
-                          : undefined,
-                    }}
-                  />
-                </OrderingArrowButton>
+                {isTinyMobile ? null : (
+                  <OrderingArrowButton
+                    onClick={(e) =>
+                      setDatePopoverAnchor(
+                        datePopoverAnchor === null ? e.currentTarget : null
+                      )
+                    }
+                  >
+                    <FilterAlt
+                      style={{
+                        color:
+                          minTimestamp || maxTimestamp
+                            ? Colors.DARK_GREEN
+                            : undefined,
+                      }}
+                    />
+                  </OrderingArrowButton>
+                )}
                 {renderOrderingArrows('timestamp')}
               </ExpensesHeaderCellContents>
-            </TableCell>
-            <TableCell>
+            </ExpensesHeaderCell>
+            <ExpensesHeaderCell>
               <ExpensesHeaderCellContents>
                 <Typography fontSize={14} fontWeight={600}>
                   Time
                 </Typography>
               </ExpensesHeaderCellContents>
-            </TableCell>
-            <TableCell>
+            </ExpensesHeaderCell>
+            <ExpensesHeaderCell>
               <ExpensesHeaderCellContents>
                 <Typography fontSize={14} fontWeight={600}>
                   Name
                 </Typography>
                 {renderOrderingArrows('name')}
               </ExpensesHeaderCellContents>
-            </TableCell>
-            <TableCell>
+            </ExpensesHeaderCell>
+            <ExpensesHeaderCell>
               <ExpensesHeaderCellContents>
                 <Typography fontSize={14} fontWeight={600}>
                   Amount
                 </Typography>
                 {renderOrderingArrows('amount')}
               </ExpensesHeaderCellContents>
-            </TableCell>
-            <TableCell>
+            </ExpensesHeaderCell>
+            <ExpensesHeaderCell>
               <ExpensesHeaderCellContents>
                 <Typography fontSize={14} fontWeight={600}>
                   Category
                 </Typography>
-                <OrderingArrowButton
-                  onClick={(e) =>
-                    setCategoryPopoverAnchor(
-                      categoryPopoverAnchor === null ? e.currentTarget : null
-                    )
-                  }
-                >
-                  <FilterAlt
-                    style={{
-                      color: selectedCategoryIds?.length
-                        ? Colors.DARK_GREEN
-                        : undefined,
-                    }}
-                  />
-                </OrderingArrowButton>
+                {isTinyMobile ? null : (
+                  <OrderingArrowButton
+                    onClick={(e) =>
+                      setCategoryPopoverAnchor(
+                        categoryPopoverAnchor === null ? e.currentTarget : null
+                      )
+                    }
+                  >
+                    <FilterAlt
+                      style={{
+                        color: selectedCategoryIds?.length
+                          ? Colors.DARK_GREEN
+                          : undefined,
+                      }}
+                    />
+                  </OrderingArrowButton>
+                )}
                 {renderOrderingArrows('category')}
               </ExpensesHeaderCellContents>
-            </TableCell>
-            <TableCell>
-              <ExpensesHeaderCellContents>
-                <Typography fontSize={14} fontWeight={600}>
-                  Description
-                </Typography>
-                {renderOrderingArrows('description')}
-              </ExpensesHeaderCellContents>
-            </TableCell>
+            </ExpensesHeaderCell>
+            {isTinyMobile ? null : (
+              <ExpensesHeaderCell>
+                <ExpensesHeaderCellContents>
+                  <Typography fontSize={14} fontWeight={600}>
+                    Description
+                  </Typography>
+                  {renderOrderingArrows('description')}
+                </ExpensesHeaderCellContents>
+              </ExpensesHeaderCell>
+            )}
             {/* Extra column for edit & delete buttons */}
             <TableCell />
           </TableRow>

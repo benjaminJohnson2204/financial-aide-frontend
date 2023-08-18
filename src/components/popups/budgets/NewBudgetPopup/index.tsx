@@ -1,7 +1,7 @@
 import { Box, Grid, MenuItem, Typography } from '@mui/material';
 import { BasePopup } from '../../BasePopup';
 import { AuthInput } from '@/components/pages/auth/common/styles';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   BudgetCategoryRelationResponse,
   BudgetCategoryRelationsApiAxiosParamCreator,
@@ -41,7 +41,11 @@ export const NewBudgetPopup = ({
   const budgetsClient = BudgetsApiAxiosParamCreator();
   const categoryRelationsClient = BudgetCategoryRelationsApiAxiosParamCreator();
 
-  const getBudgetFromForm = useCallback(() => {
+  const [budgetFromForm, setBudgetFromForm] = useState<BudgetResponse>(
+    {} as BudgetResponse
+  );
+
+  const updateBudgetFromForm = (e?: any, newFrequency?: IntervalEnum) => {
     if (typeof document !== 'undefined') {
       const form = document.getElementById(
         'new-budget-form'
@@ -54,22 +58,45 @@ export const NewBudgetPopup = ({
       const start_time = form.start_time.value;
       const end_time = form.end_time.value;
       const income = form.income.value;
-      const interval = frequency;
+      const interval = newFrequency ?? frequency;
 
-      return {
+      setBudgetFromForm({
         name,
         description,
         start_time,
         end_time,
         income,
         interval,
-      };
+      } as BudgetResponse);
     }
+  };
+
+  useEffect(() => {
+    const form = document.getElementById('new-budget-form') as HTMLFormElement;
+    if (!form || !form._name) {
+      return;
+    }
+    const inputElements = [
+      form._name,
+      form.description,
+      form.start_time,
+      form.end_time,
+      form.income,
+    ];
+    for (const inputElement of inputElements) {
+      inputElement?.addEventListener('input', updateBudgetFromForm);
+    }
+    return () => {
+      for (const inputElement of inputElements) {
+        inputElement?.removeEventListener('input', updateBudgetFromForm);
+      }
+    };
   }, []);
 
   const create = () => {
     if (submitting) return;
-    const budgetPostData = getBudgetFromForm();
+    updateBudgetFromForm();
+    const budgetPostData = budgetFromForm;
 
     if (!budgetPostData) return;
 
@@ -85,7 +112,7 @@ export const NewBudgetPopup = ({
     setSubmitting(true);
 
     budgetsClient
-      .apiBudgetsBudgetsCreate(budgetPostData as BudgetCreationRequest)
+      .apiBudgetsBudgetsCreate(budgetPostData as any as BudgetCreationRequest)
       .then(({ url, options }) => {
         backendClient
           .post(url, budgetPostData, options)
@@ -152,7 +179,10 @@ export const NewBudgetPopup = ({
                 </MenuItem>
               )),
             ]}
-            onChange={setFrequency}
+            onChange={(newFreqnecy) => {
+              setFrequency(newFreqnecy);
+              updateBudgetFromForm(null, newFreqnecy);
+            }}
             defaultValue={frequency}
           />
           <CustomInputField
@@ -173,7 +203,7 @@ export const NewBudgetPopup = ({
           Expense Categories
         </Typography>
         <CategoriesTable
-          budget={getBudgetFromForm() as BudgetResponse}
+          budget={budgetFromForm}
           editable
           categoryRelations={categoryRelations}
           onChangeCategoryRelations={setCategoryRelations}

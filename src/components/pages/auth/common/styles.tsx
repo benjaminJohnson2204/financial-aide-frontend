@@ -24,6 +24,9 @@ export const AuthFormRoot = styled('form')({
   justifyContent: 'start',
   alignItems: 'center',
   padding: 20,
+  ['@media screen and (max-width: 800px)']: {
+    width: '80%',
+  },
 });
 
 export const AuthFieldsContainer = styled('div')({
@@ -34,6 +37,9 @@ export const AuthFieldsContainer = styled('div')({
   flexDirection: 'column',
   alignItems: 'start',
   gap: 8,
+  ['@media screen and (max-width: 600px)']: {
+    width: 200,
+  },
 });
 
 export const AuthInput = styled(TextField)({
