@@ -7,6 +7,7 @@ import {
   AuthSubmitButtonContainer,
   AuthInputSpacer,
 } from '@/components/pages/auth/common/styles';
+import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { useContext, useState } from 'react';
 import { Colors } from '@/constants/colors';
@@ -42,6 +43,7 @@ export const LoginPage = () => {
       backendClient
         .post(url, postData, options)
         .then((response) => {
+          Cookies.set('csrftoken', response.headers['X-CSRFToken']);
           setCsrfTokenHeader();
           refreshUser();
         })

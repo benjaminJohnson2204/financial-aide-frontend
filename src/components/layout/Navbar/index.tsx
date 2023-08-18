@@ -26,7 +26,6 @@ export const Navbar = () => {
       .then(({ url, options }) => backendClient.post(url, {}, options))
       .then((response) => {
         removeCsrfToken();
-        setCsrfTokenHeader();
         refreshUser();
       });
   };

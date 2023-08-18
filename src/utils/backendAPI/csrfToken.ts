@@ -2,9 +2,9 @@ import Cookies from 'js-cookie';
 import { backendClient } from './backendClient';
 
 export const useSetCsrfTokenHeader = () => {
-  const setCsrfTokenHeader = () => {
+  const setCsrfTokenHeader = (token?: string) => {
     backendClient.defaults.headers.common['X-CSRFToken'] =
-      Cookies.get('csrftoken');
+      token ?? Cookies.get('csrftoken');
   };
 
   const removeCsrfToken = () => {

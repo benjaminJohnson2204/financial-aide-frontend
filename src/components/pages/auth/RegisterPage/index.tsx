@@ -8,6 +8,7 @@ import {
   AuthInputSpacer,
   AuthErrorText,
 } from '@/components/pages/auth/common/styles';
+import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Colors } from '@/constants/colors';
@@ -104,23 +105,24 @@ export const RegisterPage = () => {
     };
 
     const usersClient = UsersApiAxiosParamCreator();
-    usersClient.apiUsersRegisterCreate(postData).then(({ url, options }) => {
-      backendClient
-        .post(url, postData, options)
-        .then((response) => {
-          setCsrfTokenHeader();
+    usersClient
+      .apiUsersRegisterCreate(postData)
+      .then(({ url, options }) =>
+        backendClient.post(url, postData, options).then((response) => {
+          Cookies.set('csrftoken', response.headers['X-CSRFToken']);
+          setCsrfTokenHeader(response.headers['X-CSRFToken']);
           refreshUser();
         })
-        .catch((error) => {
-          if (!error.response) {
-            setErrorMessage('Unable to contact server');
-          } else if (error.response.status === 400) {
-            setErrorMessage('Invalid credentials');
-          } else if (error.response.status === 500) {
-            setErrorMessage('Internal server error');
-          }
-        });
-    });
+      )
+      .catch((error) => {
+        if (!error.response) {
+          setErrorMessage('Unable to contact server');
+        } else if (error.response.status === 400) {
+          setErrorMessage('Invalid credentials');
+        } else if (error.response.status === 500) {
+          setErrorMessage('Internal server error');
+        }
+      });
   };
 
   return (
