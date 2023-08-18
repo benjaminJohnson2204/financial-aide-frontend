@@ -109,8 +109,8 @@ export const RegisterPage = () => {
       .apiUsersRegisterCreate(postData)
       .then(({ url, options }) =>
         backendClient.post(url, postData, options).then((response) => {
-          Cookies.set('csrftoken', response.headers['X-Csrftoken']);
-          setCsrfTokenHeader(response.headers['X-Csrftoken']);
+          Cookies.set('csrftoken', response.headers['x-csrftoken']);
+          setCsrfTokenHeader(response.headers['x-csrftoken']);
           refreshUser();
         })
       )
