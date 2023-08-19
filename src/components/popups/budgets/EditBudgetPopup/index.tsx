@@ -183,7 +183,6 @@ export const EditBudgetPopup = ({
               editable
               inputType='text'
               label='Income ($)'
-              multiline
               name='income'
               defaultValue={budget.income}
             />
