@@ -120,6 +120,7 @@ export const EditExpensePopup = ({
                   </MenuItem>
                 )) ?? []
               }
+              onChange={setSelectedCategoryId}
               defaultValue={expense.category.id.toString()}
             />
             <CustomInputField
