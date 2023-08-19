@@ -1,10 +1,10 @@
 import { BudgetCategoryResponse } from '@/api-client';
 import { Colors } from '@/constants/colors';
 import { Box } from '@mui/material';
-import { Chart as ChartJS, ArcElement, Legend, Tooltip } from 'chart.js';
+import { Chart as ChartJS, registerables } from 'chart.js';
 import { Chart, Pie } from 'react-chartjs-2';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(...registerables);
 
 /**
  * Unified interface allowing use of pie chart for either

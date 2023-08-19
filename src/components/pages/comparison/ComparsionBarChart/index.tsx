@@ -7,10 +7,11 @@ import {
   Legend,
   Tooltip,
   BarElement,
+  registerables,
 } from 'chart.js';
 import { Chart, Pie } from 'react-chartjs-2';
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+ChartJS.register(...registerables);
 
 export interface ComparisonBarChartCategory {
   category: BudgetCategoryResponse;
@@ -23,7 +24,6 @@ interface ComparisonBarChartProps {
 }
 
 export const ComparisonBarChart = ({ categories }: ComparisonBarChartProps) => {
-  console.log(categories);
   const chartData = {
     labels: categories.map((category) => category.category.name),
     datasets: [
