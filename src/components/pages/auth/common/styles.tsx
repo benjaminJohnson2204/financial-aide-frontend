@@ -42,23 +42,25 @@ export const AuthFieldsContainer = styled('div')({
   },
 });
 
-export const AuthInput = styled(TextField)({
-  width: '100%',
-  '& .MuiOutlinedInput-root': {
-    borderRadius: 14,
-    height: 36,
-    backgroundColor: Colors.WHITE,
-    '& fieldset': {
-      borderColor: Colors.BLACK,
+export const AuthInput = styled(TextField)(
+  ({ multiline }: { multiline?: boolean }) => ({
+    width: '100%',
+    '& .MuiOutlinedInput-root': {
+      borderRadius: 14,
+      height: multiline ? 150 : 36,
+      backgroundColor: Colors.WHITE,
+      '& fieldset': {
+        borderColor: Colors.BLACK,
+      },
+      '&:hover fieldset': {
+        borderColor: `${Colors.DARK_GREEN} !important`,
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: `${Colors.DARK_GREEN} !important`,
+      },
     },
-    '&:hover fieldset': {
-      borderColor: `${Colors.DARK_GREEN} !important`,
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: `${Colors.DARK_GREEN} !important`,
-    },
-  },
-});
+  })
+);
 
 export const AuthErrorText = styled(Typography)({
   fontSize: 12,

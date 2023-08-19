@@ -199,7 +199,6 @@ export const NewBudgetPopup = ({
             editable
             inputType='text'
             label='Income ($)'
-            multiline
             name='income'
             onChange={updateBudgetFromForm}
           />

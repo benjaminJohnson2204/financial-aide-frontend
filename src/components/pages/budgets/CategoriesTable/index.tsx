@@ -56,12 +56,12 @@ export const CategoriesTable = ({
         amount: '',
         category,
         is_percentage: false,
-        id:
+        fakeId:
           prevRelations.reduce(
             (prevMax, curRelation) => Math.max(prevMax, curRelation.id),
             0
           ) + 1, // Set bogus ID to be used as React key
-      } as BudgetCategoryRelationResponse,
+      } as any as BudgetCategoryRelationResponse,
     ]);
   };
 
@@ -178,7 +178,10 @@ export const CategoriesTable = ({
       </TableHead>
       <TableBody>
         {categoryRelations.map((categoryRelation, index) => (
-          <CategoriesTableRow key={categoryRelation.id} index={index}>
+          <CategoriesTableRow
+            key={categoryRelation.id ?? (categoryRelation as any).fakeId}
+            index={index}
+          >
             <CategoriesTableCell>
               {editable ? (
                 <SelectField

@@ -40,7 +40,7 @@ export const CustomInputField = ({
       <Box
         display='flex'
         flexDirection='row'
-        alignItems='center'
+        alignItems='start'
         justifyContent='center'
         gap={5}
       >
@@ -50,6 +50,7 @@ export const CustomInputField = ({
           fontWeight={550}
           width={140}
           margin='auto'
+          marginTop={0}
         >
           {label}
         </Typography>

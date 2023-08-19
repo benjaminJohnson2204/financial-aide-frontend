@@ -28,13 +28,13 @@ export const ConfirmDeleteBudgetPopup = ({
   const deleteBudget = () => {
     budgetsClient
       .apiBudgetsBudgetsDestroy(budget.id)
-      .then(({ url, options }) => {
+      .then(({ url, options }) =>
         backendClient.delete(url, options).then((response) => {
           toast.success('Deleted budget successfully');
           afterDelete();
           onClose();
-        });
-      })
+        })
+      )
       .catch((error) => {
         toast.error('Error deleting budget');
       });

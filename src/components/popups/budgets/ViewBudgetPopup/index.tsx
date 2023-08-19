@@ -106,7 +106,6 @@ export const ViewBudgetPopup = ({
               editable={false}
               inputType='text'
               label='Income ($)'
-              multiline
               name='income'
               defaultValue={budget.income}
             />
