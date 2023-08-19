@@ -7,7 +7,7 @@ interface PageTitleProps {
 export const PageTitle = ({ title }: PageTitleProps) => {
   return (
     <Head>
-      <title>{title} - Financial Aide</title>
+      <title>{`${title} - Financial Aide`}</title>
     </Head>
   );
 };

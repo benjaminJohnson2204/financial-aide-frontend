@@ -1,34 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Financial Aide Front End
 
-## Getting Started
+This is the front end for a budgeting website tool I built. It is hosted on Vercel at https://financial-aide-frontend.vercel.app/.
 
-First, run the development server:
+There is a separate back end repository, hosted on a separate domain. Its code can be found at https://github.com/benjaminJohnson2204/FinancialAideBackend.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+I used React, Next.js, TypeScript, and MaterialUI for the front end.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How to Run
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Before running the project, you must acquire the necessary environment variables (currently, only the location of the back end). See `.env.example` for an example you can use to create your own environment variables.
 
-## Learn More
+Local development:
 
-To learn more about Next.js, take a look at the following resources:
+1. Install dependencies: `npm install --force`
+2. Run development server: `npm run dev`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Production deployment:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Install dependencies: `npm install --force`
+2. Build: `npm run build`
+3. Start: `npm run start`
 
-## Deploy on Vercel
+## Major Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Users can create, view, edit, and delete budgets. A budget is a specific amount of money allocated for a certain time period. Budgets can be yearly, monthly, or weekly.
+- Users can assign multiple categories (food, rent, gas, etc.) to each budget. Then can then budget a certain amount of money, or percentage of the budget, to each category.
+- Users can create, view, edit, and delete expenses. An expense is something the user spent a certain amount of money on, on a certain date. Every expense falls under a category, allowing users to see how much they spent in total on each category throughout a budget.
+- Users can compare their planned spending (how much they allocated to each category of their budget) to their actual spending (how much they spent on expenses of that category). There is a table view, as well as a bar chart and side-by-side pie charts.
+- Users can export their data (list of expenses, and planned vs. actual expenses by category) to CSV files to analyze and/or save it.
+- Users can create an account and sign in before doing all of the above features. Budgets, categories, and expenses are saved to a user's account, so only they can view them.

@@ -24,12 +24,15 @@ export const LandingPageSubtitle = styled(Typography)({
 export const LandingPageSection = styled('section')(
   ({ backgroundcolor }: { backgroundcolor: string }) => ({
     backgroundColor: backgroundcolor,
-    marginTop: 20,
+    marginTop: 40,
     display: 'flex',
     flexDirection: 'column',
     padding: 18,
     border: `2px solid ${Colors.BLACK}`,
     borderRadius: 24,
+    ['@media screen and (max-width: 800px)']: {
+      marginTop: 20,
+    },
   })
 );
 
