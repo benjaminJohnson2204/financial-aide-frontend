@@ -156,7 +156,21 @@ export const ExpectedActualComparisonPage = () => {
         </TableHead>
         <TableBody>
           {spendingByCategory?.map(({ total_amount, id }) => (
-            <TableRow key={id}>
+            <TableRow
+              key={id}
+              style={
+                categoryIdsToCategoryRelations.has(id) &&
+                budgetIdsToBudgets.has(selectedBudgetId as number) &&
+                getCategoryRelationTotalAmount(
+                  categoryIdsToCategoryRelations.get(id)!,
+                  budgetIdsToBudgets.get(selectedBudgetId as number)!
+                ) < total_amount
+                  ? {
+                      backgroundColor: Colors.LIGHT_PINK,
+                    }
+                  : {}
+              }
+            >
               <TableCell>
                 <Typography fontSize={14}>
                   {categoryIdsToCategories.get(id)?.name}

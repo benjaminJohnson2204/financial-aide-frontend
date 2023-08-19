@@ -7,6 +7,7 @@ export const Colors = {
   RED: '#C91212',
   LIGHT_GRAY: '#D9D9D9',
   LIGHT_BLUE: '#B3E5FC',
+  LIGHT_PINK: '#EF5350',
   CHART_COLORS: [
     '#FFF0C9',
     '#F7B7A3',
