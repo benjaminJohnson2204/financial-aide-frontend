@@ -150,6 +150,7 @@ export const NewBudgetPopup = ({
             inputType='text'
             label='Name'
             name='_name'
+            onChange={updateBudgetFromForm}
           />
           <CustomInputField
             editable
@@ -157,12 +158,14 @@ export const NewBudgetPopup = ({
             label='Description'
             multiline
             name='description'
+            onChange={updateBudgetFromForm}
           />
           <CustomInputField
             editable
             inputType='date'
             label='Start'
             name='start_time'
+            onChange={updateBudgetFromForm}
           />
           <CustomInputField
             editable
@@ -190,6 +193,7 @@ export const NewBudgetPopup = ({
             inputType='date'
             label='End'
             name='end_time'
+            onChange={updateBudgetFromForm}
           />
           <CustomInputField
             editable
@@ -197,6 +201,7 @@ export const NewBudgetPopup = ({
             label='Income ($)'
             multiline
             name='income'
+            onChange={updateBudgetFromForm}
           />
         </Grid>
         <Typography margin={3} fontSize={18} fontWeight={600}>
@@ -207,6 +212,7 @@ export const NewBudgetPopup = ({
           editable
           categoryRelations={categoryRelations}
           onChangeCategoryRelations={setCategoryRelations}
+          fillDefaultCategories
         />
         <TwoButtonsOppositeRow>
           <CustomButton

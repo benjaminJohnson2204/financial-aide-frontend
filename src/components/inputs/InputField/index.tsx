@@ -70,6 +70,7 @@ export const CustomInputField = ({
             name={name}
             type={inputType}
             defaultValue={defaultValue}
+            onChange={onChange}
             {...props}
           />
         ) : (

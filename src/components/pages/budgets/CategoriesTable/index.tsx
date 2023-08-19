@@ -22,14 +22,16 @@ import { Colors } from '@/constants/colors';
 import { useCategories } from '@/utils/backendAPI/categories';
 import { AuthInput } from '../../auth/common/styles';
 import { SelectField } from '@/components/inputs/SelectField';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 interface CategoriesTableProps {
   budget: BudgetResponse;
   editable: boolean;
   categoryRelations: BudgetCategoryRelationResponse[];
-  onChangeCategoryRelations?: (
-    newCategoryRelations: BudgetCategoryRelationResponse[]
-  ) => unknown;
+  onChangeCategoryRelations?: Dispatch<
+    SetStateAction<BudgetCategoryRelationResponse[]>
+  >;
+  fillDefaultCategories?: boolean;
 }
 
 export const CategoriesTable = ({
@@ -37,21 +39,28 @@ export const CategoriesTable = ({
   editable,
   categoryRelations,
   onChangeCategoryRelations,
+  fillDefaultCategories,
 }: CategoriesTableProps) => {
   const removeRow = (index: number) => {
-    onChangeCategoryRelations?.([
-      ...categoryRelations.slice(0, index),
-      ...categoryRelations.slice(index + 1),
+    onChangeCategoryRelations?.((prevRelations) => [
+      ...prevRelations.slice(0, index),
+      ...prevRelations.slice(index + 1),
     ]);
   };
 
-  const addRow = () => {
-    onChangeCategoryRelations?.([
-      ...categoryRelations,
+  const addRow = (category?: BudgetCategoryResponse) => {
+    onChangeCategoryRelations?.((prevRelations) => [
+      ...prevRelations,
       {
         budget,
         amount: '',
+        category,
         is_percentage: false,
+        id:
+          prevRelations.reduce(
+            (prevMax, curRelation) => Math.max(prevMax, curRelation.id),
+            0
+          ) + 1, // Set bogus ID to be used as React key
       } as BudgetCategoryRelationResponse,
     ]);
   };
@@ -60,14 +69,23 @@ export const CategoriesTable = ({
     index: number,
     newCategoryRelation: BudgetCategoryRelationResponse
   ) => {
-    onChangeCategoryRelations?.([
-      ...categoryRelations.slice(0, index),
+    onChangeCategoryRelations?.((prevRelations) => [
+      ...prevRelations.slice(0, index),
       newCategoryRelation,
-      ...categoryRelations.slice(index + 1),
+      ...prevRelations.slice(index + 1),
     ]);
   };
 
   const { categories, loadingCategories } = useCategories();
+
+  useEffect(() => {
+    if (loadingCategories || !fillDefaultCategories || !categories) {
+      return;
+    }
+    for (const category of categories) {
+      addRow(category);
+    }
+  }, [categories, loadingCategories, fillDefaultCategories]);
 
   const getAmountScaleFactor = () => {
     switch (budget.interval) {
@@ -280,7 +298,7 @@ export const CategoriesTable = ({
             <CategoriesTableCell />
             <CategoriesTableCell />
             <CategoriesTableCell>
-              <IconButton onClick={addRow}>
+              <IconButton onClick={() => addRow()}>
                 <Add style={{ color: Colors.DARK_GREEN }} />
               </IconButton>
             </CategoriesTableCell>
