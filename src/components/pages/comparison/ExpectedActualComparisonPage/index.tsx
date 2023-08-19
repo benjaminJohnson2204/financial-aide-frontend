@@ -29,7 +29,7 @@ import { useBudgetCategoryRelations } from '@/utils/backendAPI/budgetCategoryRel
 import { useSpendingByCategory } from '@/utils/backendAPI/spendingByCategory';
 import { ComparisonBarChart } from '../ComparsionBarChart';
 import { CategoriesPieChart } from '../../budgets/CategoriesPieChart';
-import { getCategoryRelationRawAmount } from '@/utils/formatting';
+import { getCategoryRelationTotalAmount } from '@/utils/formatting';
 import { useCategories } from '@/utils/backendAPI/categories';
 import { backendClient } from '@/utils/backendAPI/backendClient';
 import { toast } from 'react-toastify';
@@ -164,13 +164,11 @@ export const ExpectedActualComparisonPage = () => {
               </TableCell>
               <TableCell>
                 <Typography fontSize={14}>
-                  {categoryIdsToCategoryRelations.has(id)
-                    ? getCategoryRelationRawAmount(
+                  {categoryIdsToCategoryRelations.has(id) &&
+                  budgetIdsToBudgets.has(selectedBudgetId as number)
+                    ? getCategoryRelationTotalAmount(
                         categoryIdsToCategoryRelations.get(id)!,
-                        parseFloat(
-                          budgetIdsToBudgets.get(selectedBudgetId as number)
-                            ?.income ?? '1'
-                        )
+                        budgetIdsToBudgets.get(selectedBudgetId as number)!
                       )
                     : 0}
                 </Typography>
@@ -191,15 +189,14 @@ export const ExpectedActualComparisonPage = () => {
         categories={
           spendingByCategory?.map(({ total_amount, id }) => ({
             category: categoryIdsToCategories.get(id)!,
-            plannedAmount: categoryIdsToCategoryRelations.has(id)
-              ? getCategoryRelationRawAmount(
-                  categoryIdsToCategoryRelations.get(id)!,
-                  parseFloat(
-                    budgetIdsToBudgets.get(selectedBudgetId as number)
-                      ?.income ?? '1'
+            plannedAmount:
+              categoryIdsToCategoryRelations.has(id) &&
+              budgetIdsToBudgets.has(selectedBudgetId as number)
+                ? getCategoryRelationTotalAmount(
+                    categoryIdsToCategoryRelations.get(id)!,
+                    budgetIdsToBudgets.get(selectedBudgetId as number)!
                   )
-                )
-              : 0,
+                : 0,
             actualAmount: total_amount,
           })) ?? []
         }
@@ -220,13 +217,17 @@ export const ExpectedActualComparisonPage = () => {
                 .get(selectedBudgetId as number)
                 ?.map((categoryRelation) => ({
                   category: categoryRelation.category,
-                  rawAmount: getCategoryRelationRawAmount(
-                    categoryRelation,
-                    parseFloat(
-                      budgetIdsToBudgets.get(selectedBudgetId as number)
-                        ?.income ?? '1'
-                    )
-                  ),
+                  rawAmount:
+                    categoryIdsToCategoryRelations.has(
+                      categoryRelation.category.id
+                    ) && budgetIdsToBudgets.has(selectedBudgetId as number)
+                      ? getCategoryRelationTotalAmount(
+                          categoryIdsToCategoryRelations.get(
+                            categoryRelation.category.id
+                          )!,
+                          budgetIdsToBudgets.get(selectedBudgetId as number)!
+                        )
+                      : 0,
                 })) ?? []
             }
           />
@@ -318,7 +319,7 @@ export const ExpectedActualComparisonPage = () => {
             <StyledTab value={2} label='Pie Chart' />
           </StyledTabs>
 
-          <Box marginTop={3}>
+          <Box marginTop={3} width='100%'>
             {viewTab === 0
               ? renderTable()
               : viewTab === 1

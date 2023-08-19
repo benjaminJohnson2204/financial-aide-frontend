@@ -1,4 +1,9 @@
-import { BudgetCategoryRelationResponse, UserResponse } from '@/api-client';
+import {
+  BudgetCategoryRelationResponse,
+  BudgetResponse,
+  IntervalEnum,
+  UserResponse,
+} from '@/api-client';
 
 export const formatCategoryRelationAmount = (
   categoryRelation: BudgetCategoryRelationResponse
@@ -26,4 +31,36 @@ export const getCategoryRelationRawAmount = (
   return categoryRelation.is_percentage
     ? Math.round((parseFloat(categoryRelation.amount) * income) / 100)
     : parseFloat(categoryRelation.amount);
+};
+
+export const getCategoryRelationTotalAmount = (
+  categoryRelation: BudgetCategoryRelationResponse,
+  budget: BudgetResponse
+) => {
+  const durationMs =
+    new Date(budget.end_time).getTime() - new Date(budget.start_time).getTime();
+  const durationDays = durationMs / 1000 / 60 / 60 / 24;
+  let daysMultiplier = 1;
+  switch (budget.interval) {
+    case IntervalEnum.Yearly:
+      daysMultiplier = 365;
+      break;
+    case IntervalEnum.Monthly:
+      daysMultiplier = 30;
+      break;
+    case IntervalEnum.Weekly:
+      daysMultiplier = 7;
+      break;
+  }
+  const budgetMultiplier = durationDays / daysMultiplier;
+  return (
+    Math.round(
+      budgetMultiplier *
+        getCategoryRelationRawAmount(
+          categoryRelation,
+          parseFloat(budget.income)
+        ) *
+        100
+    ) / 100
+  );
 };
