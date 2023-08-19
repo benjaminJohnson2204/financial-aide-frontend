@@ -13,6 +13,7 @@ import moment from 'moment';
 import { Delete, Save, Visibility } from '@mui/icons-material';
 import { backendClient } from '@/utils/backendAPI/backendClient';
 import { toast } from 'react-toastify';
+import { useCategories } from '@/utils/backendAPI/categories';
 
 interface EditExpensePopupProps {
   expense: ExpenseResponse;
@@ -39,6 +40,8 @@ export const EditExpensePopup = ({
   useEffect(() => {
     setSelectedCategoryId(expense.category?.id);
   }, [expense.category?.id]);
+
+  const { categories } = useCategories();
 
   const expensesClient = ExpensesApiAxiosParamCreator();
 
@@ -110,11 +113,13 @@ export const EditExpensePopup = ({
               inputType='select'
               label='Category'
               name='category'
-              selectContents={[
-                <MenuItem key={expense.category.id} value={expense.category.id}>
-                  {expense.category.name}
-                </MenuItem>,
-              ]}
+              selectContents={
+                categories?.map((category) => (
+                  <MenuItem key={category.id} value={category.id}>
+                    {category?.name}
+                  </MenuItem>
+                )) ?? []
+              }
               defaultValue={expense.category.id.toString()}
             />
             <CustomInputField
