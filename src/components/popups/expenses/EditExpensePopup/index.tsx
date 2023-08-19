@@ -62,8 +62,10 @@ export const EditExpensePopup = ({
       amount,
       category: selectedCategoryId,
       timestamp,
-      description,
     };
+    if (description && description.length > 0) {
+      (expensePatchData as any).description = description;
+    }
 
     setSubmitting(true);
 

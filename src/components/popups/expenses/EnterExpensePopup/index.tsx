@@ -50,10 +50,12 @@ export const EnterExpensePopup = ({
     const expensePostData = {
       name,
       amount,
-      category: selectedCategoryId,
+      category: selectedCategoryId as number,
       timestamp,
-      description,
     };
+    if (description && description.length > 0) {
+      (expensePostData as any).description = description;
+    }
 
     setSubmitting(true);
 
