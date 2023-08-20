@@ -24,16 +24,24 @@ export const SourceCodePage = () => {
       </Typography>
       <Typography fontSize={14} marginTop={2}>
         The front end code is at{' '}
-        <a href={FRONTEND_GITHUB_URL}>{FRONTEND_GITHUB_URL}</a>.
+        <a href={FRONTEND_GITHUB_URL} rel='noopener noreferrer' target='_blank'>
+          {FRONTEND_GITHUB_URL}
+        </a>
+        .
       </Typography>
       <Typography fontSize={14} marginTop={2}>
         The back end code is at{' '}
-        <a href={BACKEND_GITHUB_URL}>{BACKEND_GITHUB_URL}</a>.
+        <a href={BACKEND_GITHUB_URL} rel='noopener noreferrer' target='_blank'>
+          {BACKEND_GITHUB_URL}
+        </a>
+        .
       </Typography>
       <Typography fontSize={14} marginTop={2}>
         API documentation for the back end can be found at{' '}
-        <a href={BACKEND_DOCS_URL}>{BACKEND_DOCS_URL}</a>. I used SwaggerUI to
-        create this documentation.
+        <a href={BACKEND_DOCS_URL} rel='noopener noreferrer' target='_blank'>
+          {BACKEND_DOCS_URL}{' '}
+        </a>
+        . I used SwaggerUI to create this documentation.
       </Typography>
     </>
   );
